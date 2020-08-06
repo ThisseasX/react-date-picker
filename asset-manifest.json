@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/react-date-picker/static/js/main.198a66f6.chunk.js",
+    "main.js.map": "/react-date-picker/static/js/main.198a66f6.chunk.js.map",
+    "runtime-main.js": "/react-date-picker/static/js/runtime-main.920fab63.js",
+    "runtime-main.js.map": "/react-date-picker/static/js/runtime-main.920fab63.js.map",
+    "static/js/2.19511425.chunk.js": "/react-date-picker/static/js/2.19511425.chunk.js",
+    "static/js/2.19511425.chunk.js.map": "/react-date-picker/static/js/2.19511425.chunk.js.map",
+    "index.html": "/react-date-picker/index.html",
+    "precache-manifest.4d301337886ce3f31f4742a7bfe3e09c.js": "/react-date-picker/precache-manifest.4d301337886ce3f31f4742a7bfe3e09c.js",
+    "service-worker.js": "/react-date-picker/service-worker.js",
+    "static/js/2.19511425.chunk.js.LICENSE.txt": "/react-date-picker/static/js/2.19511425.chunk.js.LICENSE.txt",
+    "static/media/chevron.2d9c0cbc.svg": "/react-date-picker/static/media/chevron.2d9c0cbc.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.920fab63.js",
+    "static/js/2.19511425.chunk.js",
+    "static/js/main.198a66f6.chunk.js"
+  ]
+}
