@@ -4,10 +4,17 @@ import { fontStyle } from 'style';
 const styles = {
   page: {
     padding: '16px 16px 8px',
+    minWidth: '256px',
   },
   chevron: {
     width: 24,
     height: 24,
+    cursor: 'pointer',
+    borderRadius: '50%',
+    '&:hover': {
+      backgroundColor: '#3f51b5',
+      fill: 'white',
+    },
   },
   chevronLeft: {
     transform: 'rotate(90deg)',
@@ -27,17 +34,13 @@ const styles = {
   table: {
     borderCollapse: 'collapse',
   },
-  day: {
+  thDay: {
+    ...fontStyle(14, 'dimgrey'),
     width: '32px',
     height: '32px',
     textAlign: 'center',
     verticalAlign: 'middle',
-  },
-  thDay: {
-    ...fontStyle(14, 'dimgrey'),
-  },
-  tdDay: {
-    ...fontStyle(14, 'black'),
+    cursor: 'default',
   },
 };
 

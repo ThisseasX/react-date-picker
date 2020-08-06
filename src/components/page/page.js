@@ -1,16 +1,28 @@
-import React from 'react';
-import useStyles from './style';
+import React, { memo } from 'react';
+import { compose } from 'redux';
+import connectProps from './props';
 import { Day } from 'components';
 import moment from 'moment';
 import { flow, chunk, flatten } from 'lodash/fp';
 import { daysOfWeek } from './content';
 import { ReactComponent as Chevron } from 'assets/icons/chevron.svg';
+import useStyles from './style';
 import cn from 'clsx';
 
-const Page = ({ year, month, handlePreviousMonth, handleNextMonth }) => {
+const Page = ({
+  year,
+  month,
+  handlePreviousMonth,
+  handleNextMonth,
+  disabledDays,
+  selectedDays,
+  hoveredDay,
+  selectDay,
+  updateHoverDay,
+}) => {
   const classes = useStyles();
 
-  const date = moment().set({ year, month });
+  const date = moment([year, month]);
 
   const headerDate = date.format('MMMM YYYY');
   const firstDayOfMonth = date.startOf('month').day();
@@ -47,7 +59,7 @@ const Page = ({ year, month, handlePreviousMonth, handleNextMonth }) => {
         <thead>
           <tr>
             {daysOfWeek.map(day => (
-              <td key={day.name} className={cn(classes.day, classes.thDay)}>
+              <td key={day.name} className={classes.thDay}>
                 {day.short}
               </td>
             ))}
@@ -58,9 +70,17 @@ const Page = ({ year, month, handlePreviousMonth, handleNextMonth }) => {
           {weeks.map((week, i) => (
             <tr key={i}>
               {week.map((day, i) => (
-                <td key={i} className={cn(classes.day, classes.tdDay)}>
-                  {day && <Day day={day} />}
-                </td>
+                <Day
+                  key={i}
+                  year={year}
+                  month={month}
+                  day={day}
+                  disabledDays={disabledDays}
+                  selectedDays={selectedDays}
+                  hoveredDay={hoveredDay}
+                  selectDay={selectDay}
+                  updateHoverDay={updateHoverDay}
+                />
               ))}
             </tr>
           ))}
@@ -70,4 +90,4 @@ const Page = ({ year, month, handlePreviousMonth, handleNextMonth }) => {
   );
 };
 
-export default Page;
+export default compose(connectProps, memo)(Page);
