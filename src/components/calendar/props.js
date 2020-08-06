@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { combineSelectors } from 'store/utils';
-import { year, month } from 'components/calendar/state/selectors';
-import { updateMonth } from 'components/calendar/state/actions';
+import { dates } from 'store/calendar/selectors';
+import { updateMonth } from 'store/calendar/actions';
 
-const mapStateToProps = combineSelectors(year, month);
+const mapStateToProps = combineSelectors(dates);
 
 const mapDispatchToProps = {
   updateMonth,

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { calendarReducer } from 'components/calendar/state/reducer';
+import { calendarReducer } from './calendar/reducer';
 
 const rootReducer = combineReducers({
   calendar: calendarReducer,

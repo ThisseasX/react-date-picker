@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { combineSelectors } from 'store/utils';
-import { selectedDays, hoveredDay } from 'components/calendar/state/selectors';
-import { selectDay, updateHoveredDay } from 'components/calendar/state/actions';
+import { selectedDays, hoveredDay } from 'store/calendar/selectors';
+import { selectDay, updateHoveredDay } from 'store/calendar/actions';
 
 const mapStateToProps = combineSelectors(selectedDays, hoveredDay);
 

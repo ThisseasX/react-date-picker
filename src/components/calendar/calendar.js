@@ -2,14 +2,10 @@ import React, { useCallback, memo } from 'react';
 import { Page } from 'components';
 import { compose } from 'redux';
 import connectProps from './props';
-import moment from 'moment';
 import useStyles from './style';
 
-const Calendar = ({ year, month, updateMonth }) => {
+const Calendar = ({ dates, updateMonth }) => {
   const classes = useStyles();
-
-  const currentDate = moment([year, month]).startOf('day');
-  const nextDate = currentDate.add(1, 'month');
 
   const disabledDays = {
     before: new Date(2020, 6, 7),
@@ -27,15 +23,13 @@ const Calendar = ({ year, month, updateMonth }) => {
   return (
     <div className={classes.calendar}>
       <Page
-        year={year}
-        month={month}
+        date={dates[0]}
         handlePreviousMonth={handlePreviousMonth}
         disabledDays={disabledDays}
       />
       <div className={classes.divider} />
       <Page
-        year={nextDate.get('year')}
-        month={nextDate.get('month')}
+        date={dates[1]}
         handleNextMonth={handleNextMonth}
         disabledDays={disabledDays}
       />

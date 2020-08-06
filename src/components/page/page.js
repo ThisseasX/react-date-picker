@@ -2,16 +2,13 @@ import React, { memo } from 'react';
 import { compose } from 'redux';
 import connectProps from './props';
 import { Day } from 'components';
-import moment from 'moment';
-import { flow, chunk, flatten } from 'lodash/fp';
 import { daysOfWeek } from './content';
 import { ReactComponent as Chevron } from 'assets/icons/chevron.svg';
 import useStyles from './style';
 import cn from 'clsx';
 
 const Page = ({
-  year,
-  month,
+  date,
   handlePreviousMonth,
   handleNextMonth,
   disabledDays,
@@ -21,19 +18,6 @@ const Page = ({
   updateHoveredDay,
 }) => {
   const classes = useStyles();
-
-  const date = moment([year, month]);
-
-  const headerDate = date.format('MMMM YYYY');
-  const firstDayOfMonth = date.startOf('month').day();
-  const daysInMonth = date.daysInMonth();
-
-  const offsetDays = Array(firstDayOfMonth);
-  const days = Array(daysInMonth)
-    .fill()
-    .map((_, i) => i + 1);
-
-  const weeks = flow(flatten, chunk(7))([offsetDays, days]);
 
   const handleMouseLeave = () => {
     updateHoveredDay(undefined);
@@ -49,7 +33,7 @@ const Page = ({
           />
         )}
 
-        <div className={classes.headerDate}>{headerDate}</div>
+        <div className={classes.headerDate}>{date.header}</div>
 
         {handleNextMonth && (
           <Chevron
@@ -71,13 +55,13 @@ const Page = ({
         </thead>
 
         <tbody onMouseLeave={handleMouseLeave}>
-          {weeks.map((week, i) => (
+          {date.weeks.map((week, i) => (
             <tr key={i}>
               {week.map((day, i) => (
                 <Day
                   key={i}
-                  year={year}
-                  month={month}
+                  year={date.year}
+                  month={date.month}
                   day={day}
                   disabledDays={disabledDays}
                   selectedDays={selectedDays}
