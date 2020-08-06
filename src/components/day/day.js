@@ -12,7 +12,7 @@ const Day = ({
   selectedDays,
   hoveredDay,
   selectDay,
-  updateHoverDay,
+  updateHoveredDay,
 }) => {
   const classes = useStyles();
 
@@ -24,7 +24,7 @@ const Day = ({
 
   const handleDayHover = () => {
     if (selectedDays.length === 1) {
-      updateHoverDay(moment([year, month, day]));
+      updateHoveredDay(moment([year, month, day]));
     }
   };
 

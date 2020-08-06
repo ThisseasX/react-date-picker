@@ -9,6 +9,7 @@ const styles = {
     textAlign: 'center',
     verticalAlign: 'middle',
     cursor: 'pointer',
+    userSelect: 'none',
     '&:hover': {
       backgroundColor: '#3f51b5',
       color: 'white',

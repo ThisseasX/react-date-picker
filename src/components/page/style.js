@@ -11,6 +11,7 @@ const styles = {
     height: 24,
     cursor: 'pointer',
     borderRadius: '50%',
+    userSelect: 'none',
     '&:hover': {
       backgroundColor: '#3f51b5',
       fill: 'white',
@@ -41,6 +42,7 @@ const styles = {
     textAlign: 'center',
     verticalAlign: 'middle',
     cursor: 'default',
+    userSelect: 'none',
   },
 };
 

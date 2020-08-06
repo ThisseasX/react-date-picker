@@ -5,6 +5,7 @@ const styles = {
     display: 'flex',
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.38)',
     borderRadius: '4px',
+    minHeight: '280px',
     position: 'relative',
   },
   divider: {

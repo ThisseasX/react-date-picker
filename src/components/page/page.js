@@ -18,7 +18,7 @@ const Page = ({
   selectedDays,
   hoveredDay,
   selectDay,
-  updateHoverDay,
+  updateHoveredDay,
 }) => {
   const classes = useStyles();
 
@@ -34,6 +34,10 @@ const Page = ({
     .map((_, i) => i + 1);
 
   const weeks = flow(flatten, chunk(7))([offsetDays, days]);
+
+  const handleMouseLeave = () => {
+    updateHoveredDay(undefined);
+  };
 
   return (
     <div className={classes.page}>
@@ -66,7 +70,7 @@ const Page = ({
           </tr>
         </thead>
 
-        <tbody>
+        <tbody onMouseLeave={handleMouseLeave}>
           {weeks.map((week, i) => (
             <tr key={i}>
               {week.map((day, i) => (
@@ -79,7 +83,7 @@ const Page = ({
                   selectedDays={selectedDays}
                   hoveredDay={hoveredDay}
                   selectDay={selectDay}
-                  updateHoverDay={updateHoverDay}
+                  updateHoveredDay={updateHoveredDay}
                 />
               ))}
             </tr>
