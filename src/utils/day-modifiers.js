@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { areDaysEqual } from 'utils';
-import { flow, sortBy, compact, identity } from 'lodash/fp';
+import { flow, sortBy, compact, identity, findIndex } from 'lodash/fp';
 
 const isToday = (year, month, day) => {
   const thisDay = moment([year, month, day]).startOf('day');
@@ -52,4 +52,34 @@ const isBetween = (year, month, day, selectedDays, hoveredDay) => {
   return isBetween;
 };
 
-export { isToday, isDisabled, isSelected, isSelectedMoment, isBetween };
+const getPosition = (year, month, day, selectedDays, hoveredDay) => {
+  const thisDay = moment([year, month, day]).startOf('day');
+
+  if (selectedDays.some(areDaysEqual(hoveredDay))) {
+    return;
+  }
+
+  const days = flow(
+    compact,
+    sortBy(identity),
+  )([selectedDays[0], selectedDays[1] || hoveredDay]);
+
+  if (days.length !== 2) {
+    return;
+  }
+
+  const index = findIndex(areDaysEqual(thisDay), days);
+
+  const position = index === 0 ? 'start' : index === 1 ? 'end' : undefined;
+
+  return position;
+};
+
+export {
+  isToday,
+  isDisabled,
+  isSelected,
+  isSelectedMoment,
+  isBetween,
+  getPosition,
+};
