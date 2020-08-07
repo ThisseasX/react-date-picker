@@ -10,9 +10,31 @@ const styles = {
     verticalAlign: 'middle',
     cursor: 'pointer',
     userSelect: 'none',
+    position: 'relative',
+    '&::before': {
+      zIndex: -1,
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      top: 2,
+      right: 0,
+      bottom: 2,
+    },
     '&:hover': {
-      backgroundColor: '#3f51b5',
       color: 'white',
+      '&::before': {
+        backgroundColor: '#3f51b5',
+      },
+    },
+  },
+  start: {
+    '&::before': {
+      borderRadius: '16px 0 0 16px',
+    },
+  },
+  end: {
+    '&::before': {
+      borderRadius: '0 16px 16px 0',
     },
   },
   today: {
@@ -25,11 +47,15 @@ const styles = {
     pointerEvents: 'none',
   },
   selected: {
-    backgroundColor: '#3f51b5',
     color: 'white',
+    '&::before': {
+      backgroundColor: '#3f51b5',
+    },
   },
   between: {
-    backgroundColor: '#e8eaf6',
+    '&::before': {
+      backgroundColor: '#e8eaf6',
+    },
   },
 };
 
