@@ -1,8 +1,7 @@
-const year = ({ calendar: { year } }) => ({ year });
-const month = ({ calendar: { month } }) => ({ month });
-const weeks = ({ calendar: { weeks } }) => ({ weeks });
+const startDate = ({ calendar: { startDate } }) => ({ startDate });
+const pages = ({ calendar: { pages } }) => ({ pages });
+const dates = ({ calendar: { dates } }) => ({ dates });
 const selectedDays = ({ calendar: { selectedDays } }) => ({ selectedDays });
 const hoveredDay = ({ calendar: { hoveredDay } }) => ({ hoveredDay });
-const dates = ({ calendar: { dates } }) => ({ dates });
 
-export { year, month, weeks, selectedDays, hoveredDay, dates };
+export { startDate, pages, selectedDays, hoveredDay, dates };

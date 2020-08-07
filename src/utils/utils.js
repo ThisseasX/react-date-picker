@@ -1,8 +1,25 @@
 import moment from 'moment';
-import { flow, flatten, chunk } from 'lodash/fp';
+import { flow, flatten, chunk, curryN } from 'lodash/fp';
 
-const getYearAndMonth = (year, month, offsetMonths = 0) => {
-  const date = moment([year, month]).startOf('day').add(offsetMonths, 'months');
+const areDaysEqual = curryN(2, (day1, day2) => {
+  const momentDay1 = moment(day1).startOf('day');
+  const momentDay2 = moment(day2).startOf('day');
+
+  const isSameDay = momentDay1.diff(momentDay2, 'days') === 0;
+
+  return isSameDay;
+});
+
+const isSelectedDay = (selectedDays, day) => {
+  const isSelected = selectedDays.some(selectedDay =>
+    areDaysEqual(day, selectedDay),
+  );
+
+  return isSelected;
+};
+
+const getYearAndMonth = (momentDate, offsetMonths = 0) => {
+  const date = moment(momentDate).add(offsetMonths, 'months');
 
   return {
     year: date.get('year'),
@@ -10,8 +27,8 @@ const getYearAndMonth = (year, month, offsetMonths = 0) => {
   };
 };
 
-const getWeeks = (year, month, offsetMonths = 0) => {
-  const date = moment([year, month]).startOf('day').add(offsetMonths, 'months');
+const getWeeks = (momentDate, offsetMonths = 0) => {
+  const date = moment(momentDate).add(offsetMonths, 'months');
 
   const firstDayOfMonth = date.startOf('month').day();
   const daysInMonth = date.daysInMonth();
@@ -26,11 +43,27 @@ const getWeeks = (year, month, offsetMonths = 0) => {
   return weeks;
 };
 
-const getHeader = (year, month, offsetMonths = 0) => {
-  const date = moment([year, month]).startOf('day').add(offsetMonths, 'months');
+const getHeader = (momentDate, offsetMonths = 0) => {
+  const date = moment(momentDate).add(offsetMonths, 'months');
   const header = date.format('MMMM YYYY');
 
   return header;
 };
 
-export { getYearAndMonth, getWeeks, getHeader };
+const generateDates = (momentDate, pages) =>
+  Array(pages)
+    .fill()
+    .map((_, i) => ({
+      ...getYearAndMonth(momentDate, i),
+      weeks: getWeeks(momentDate, i),
+      header: getHeader(momentDate, i),
+    }));
+
+export {
+  areDaysEqual,
+  isSelectedDay,
+  getYearAndMonth,
+  getWeeks,
+  getHeader,
+  generateDates,
+};

@@ -20,7 +20,9 @@ const Page = ({
   const classes = useStyles();
 
   const handleMouseLeave = () => {
-    updateHoveredDay(undefined);
+    if (selectedDays.length === 1) {
+      updateHoveredDay(undefined);
+    }
   };
 
   return (

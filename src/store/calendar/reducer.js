@@ -1,27 +1,19 @@
 import { handleActions } from 'redux-actions';
-import { updateMonth, selectDay, updateHoveredDay } from './actions';
+import {
+  updateMonth,
+  selectDay,
+  updateHoveredDay,
+  updatePages,
+  updateStartDate,
+} from './actions';
 import { reject } from 'lodash/fp';
-import { getYearAndMonth, getWeeks, getHeader } from 'utils';
-import { compareDays, isSelectedDay } from './utils';
+import { areDaysEqual, isSelectedDay, generateDates } from 'utils';
 import moment from 'moment';
 
-const today = moment().startOf('day');
-const year = today.get('year');
-const month = today.get('month');
-
 const initialState = {
-  dates: [
-    {
-      ...getYearAndMonth(year, month),
-      weeks: getWeeks(year, month),
-      header: getHeader(year, month),
-    },
-    {
-      ...getYearAndMonth(year, month, 1),
-      weeks: getWeeks(year, month, 1),
-      header: getHeader(year, month, 1),
-    },
-  ],
+  pages: 2,
+  startDate: new Date(),
+  dates: [],
   selectedDays: [],
   hoveredDay: undefined,
 };
@@ -29,25 +21,29 @@ const initialState = {
 const calendarReducer = handleActions(
   {
     [selectDay]: (state, { payload }) => {
+      const selectedDay = payload;
+
       if (
         state.selectedDays.length > 0 &&
-        isSelectedDay(state.selectedDays, payload)
+        isSelectedDay(state.selectedDays, selectedDay)
       ) {
         return {
           ...state,
-          selectedDays: reject(compareDays(payload), state.selectedDays),
-          hoveredDay: payload,
+          selectedDays: reject(areDaysEqual(selectedDay), state.selectedDays),
+          hoveredDay: selectedDay,
         };
       } else if (state.selectedDays.length === 2) {
         return {
           ...state,
-          selectedDays: [payload],
+          selectedDays: [selectedDay],
           hoveredDay: undefined,
         };
       } else {
         return {
           ...state,
-          selectedDays: [...state.selectedDays, payload].sort((a, b) => a - b),
+          selectedDays: [...state.selectedDays, selectedDay].sort(
+            (a, b) => a - b,
+          ),
           hoveredDay: undefined,
         };
       }
@@ -57,30 +53,39 @@ const calendarReducer = handleActions(
       hoveredDay: payload,
     }),
     [updateMonth]: (state, { payload }) => {
-      const thisDate = moment([
-        state.dates[0].year,
-        state.dates[0].month,
-      ]).startOf('day');
-
-      const targetDate = thisDate.add(payload, 'month');
-
-      const year = targetDate.get('year');
-      const month = targetDate.get('month');
+      const month = payload;
+      const thisDate = moment(state.startDate).startOf('day');
+      const targetDate = thisDate.add(month, 'month');
 
       return {
         ...state,
-        dates: [
-          {
-            ...getYearAndMonth(year, month),
-            weeks: getWeeks(year, month),
-            header: getHeader(year, month),
-          },
-          {
-            ...getYearAndMonth(year, month, 1),
-            weeks: getWeeks(year, month, 1),
-            header: getHeader(year, month, 1),
-          },
-        ],
+        startDate: targetDate.toDate(),
+        dates: generateDates(targetDate, state.pages),
+      };
+    },
+    [updatePages]: (state, { payload }) => {
+      const pages = payload;
+      const thisDate = moment(state.startDate).startOf('day');
+
+      return {
+        ...state,
+        pages,
+        dates: generateDates(thisDate, pages),
+      };
+    },
+    [updateStartDate]: (state, { payload }) => {
+      const startDate = payload;
+
+      if (areDaysEqual(startDate, state.startDate)) {
+        return state;
+      }
+
+      const thisDate = moment(startDate).startOf('day');
+
+      return {
+        ...state,
+        startDate,
+        dates: generateDates(thisDate, state.pages),
       };
     },
   },

@@ -1,16 +1,25 @@
-import React, { useCallback, memo } from 'react';
+import React, { useEffect, useCallback, memo } from 'react';
 import { Page } from 'components';
 import { compose } from 'redux';
 import connectProps from './props';
 import useStyles from './style';
 
-const Calendar = ({ dates, updateMonth }) => {
+const Calendar = ({
+  pages,
+  startDate = new Date(),
+  disabledDays,
+  dates = [],
+  updateMonth,
+  updatePages,
+  updateStartDate,
+}) => {
   const classes = useStyles();
 
-  const disabledDays = {
-    before: new Date(2020, 6, 7),
-    after: new Date(2020, 8, 22),
-  };
+  useEffect(() => {
+    updatePages(pages);
+    updateStartDate(startDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updatePages, updateStartDate]);
 
   const handlePreviousMonth = useCallback(() => {
     updateMonth(-1);
@@ -22,17 +31,17 @@ const Calendar = ({ dates, updateMonth }) => {
 
   return (
     <div className={classes.calendar}>
-      <Page
-        date={dates[0]}
-        handlePreviousMonth={handlePreviousMonth}
-        disabledDays={disabledDays}
-      />
-      <div className={classes.divider} />
-      <Page
-        date={dates[1]}
-        handleNextMonth={handleNextMonth}
-        disabledDays={disabledDays}
-      />
+      {dates.map((date, i, arr) => (
+        <React.Fragment key={i}>
+          {i > 0 && <div className={classes.divider} />}
+          <Page
+            date={date}
+            handlePreviousMonth={i === 0 ? handlePreviousMonth : undefined}
+            handleNextMonth={i === arr.length - 1 ? handleNextMonth : undefined}
+            disabledDays={disabledDays}
+          />
+        </React.Fragment>
+      ))}
     </div>
   );
 };

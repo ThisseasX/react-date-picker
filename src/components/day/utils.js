@@ -1,11 +1,12 @@
 import moment from 'moment';
+import { areDaysEqual } from 'utils';
 import { flow, sortBy, compact, identity } from 'lodash/fp';
 
 const isToday = (year, month, day) => {
   const thisDay = moment([year, month, day]).startOf('day');
   const today = moment().startOf('day');
 
-  const isToday = thisDay.diff(today, 'days') === 0;
+  const isToday = areDaysEqual(thisDay, today);
 
   return isToday;
 };
@@ -23,8 +24,7 @@ const isSelected = (year, month, day, selectedDays) => {
   const thisDay = moment([year, month, day]).startOf('day');
 
   const isSelected = selectedDays.some(day => {
-    const selectedDay = moment(day).startOf('day');
-    return selectedDay.diff(thisDay, 'days') === 0;
+    return areDaysEqual(day, thisDay);
   });
 
   return isSelected;
