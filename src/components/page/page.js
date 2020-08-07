@@ -8,12 +8,17 @@ import useStyles from './style';
 import cn from 'clsx';
 
 const Page = ({
+  // Props
   date,
   handlePreviousMonth,
   handleNextMonth,
-  disabledDays,
+
+  // Connected
   selectedDays,
+  disabledDays,
   hoveredDay,
+
+  // Actions
   selectDay,
   updateHoveredDay,
 }) => {
@@ -62,12 +67,14 @@ const Page = ({
               {week.map((day, i) => (
                 <Day
                   key={i}
+                  // Core
                   year={date.year}
                   month={date.month}
                   day={day}
-                  disabledDays={disabledDays}
                   selectedDays={selectedDays}
+                  disabledDays={disabledDays}
                   hoveredDay={hoveredDay}
+                  // Actions
                   selectDay={selectDay}
                   updateHoveredDay={updateHoveredDay}
                 />

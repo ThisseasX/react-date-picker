@@ -11,8 +11,9 @@ const isToday = (year, month, day) => {
   return isToday;
 };
 
-const isDisabled = (year, month, day, before, after) => {
+const isDisabled = (year, month, day, disabledDays) => {
   const thisDay = moment([year, month, day]).startOf('day');
+  const { before, after } = disabledDays;
 
   const isBefore = before && thisDay.isBefore(moment(before).startOf('day'));
   const isAfter = after && thisDay.isAfter(moment(after).startOf('day'));
@@ -20,14 +21,18 @@ const isDisabled = (year, month, day, before, after) => {
   return isBefore || isAfter;
 };
 
-const isSelected = (year, month, day, selectedDays) => {
-  const thisDay = moment([year, month, day]).startOf('day');
+const isSelectedMoment = (momentDate, selectedDays) => {
+  const thisDay = moment(momentDate).startOf('day');
 
   const isSelected = selectedDays.some(day => {
     return areDaysEqual(day, thisDay);
   });
 
   return isSelected;
+};
+
+const isSelected = (year, month, day, selectedDays) => {
+  return isSelectedMoment([year, month, day], selectedDays);
 };
 
 const isBetween = (year, month, day, selectedDays, hoveredDay) => {
@@ -47,4 +52,4 @@ const isBetween = (year, month, day, selectedDays, hoveredDay) => {
   return isBetween;
 };
 
-export { isToday, isDisabled, isSelected, isBetween };
+export { isToday, isDisabled, isSelected, isSelectedMoment, isBetween };

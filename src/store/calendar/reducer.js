@@ -1,13 +1,16 @@
 import { handleActions } from 'redux-actions';
+
 import {
   updateMonth,
   selectDay,
   updateHoveredDay,
   updatePages,
   updateStartDate,
+  updateDisabledDays,
 } from './actions';
+
 import { reject } from 'lodash/fp';
-import { areDaysEqual, isSelectedDay, generateDates } from 'utils';
+import { areDaysEqual, isSelectedMoment, generateDates } from 'utils';
 import moment from 'moment';
 
 const initialState = {
@@ -15,6 +18,10 @@ const initialState = {
   startDate: new Date(),
   dates: [],
   selectedDays: [],
+  disabledDays: {
+    before: undefined,
+    after: undefined,
+  },
   hoveredDay: undefined,
 };
 
@@ -25,7 +32,7 @@ const calendarReducer = handleActions(
 
       if (
         state.selectedDays.length > 0 &&
-        isSelectedDay(state.selectedDays, selectedDay)
+        isSelectedMoment(selectedDay, state.selectedDays)
       ) {
         return {
           ...state,
@@ -86,6 +93,18 @@ const calendarReducer = handleActions(
         ...state,
         startDate,
         dates: generateDates(thisDate, state.pages),
+      };
+    },
+    [updateDisabledDays]: (state, { payload = {} }) => {
+      const { before, after } = payload;
+
+      return {
+        ...state,
+        disabledDays: {
+          ...state.disabledDays,
+          before,
+          after,
+        },
       };
     },
   },

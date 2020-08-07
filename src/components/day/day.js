@@ -1,22 +1,23 @@
 import React, { memo } from 'react';
 import useStyles from './style';
 import moment from 'moment';
-import { isToday, isDisabled, isSelected, isBetween } from './utils';
+import { isToday, isDisabled, isSelected, isBetween } from 'utils';
 import cn from 'clsx';
 
 const Day = ({
+  // Props
   year,
   month,
   day,
-  disabledDays = {},
   selectedDays,
+  disabledDays,
   hoveredDay,
+
+  // Actions
   selectDay,
   updateHoveredDay,
 }) => {
   const classes = useStyles();
-
-  const { before, after } = disabledDays;
 
   const handleDayClick = () => {
     selectDay(moment([year, month, day]).startOf('day'));
@@ -32,8 +33,8 @@ const Day = ({
     <td
       className={cn(classes.day, {
         [classes.today]: isToday(year, month, day),
-        [classes.disabled]: isDisabled(year, month, day, before, after),
-        [classes.noHover]: !day || isDisabled(year, month, day, before, after),
+        [classes.disabled]: isDisabled(year, month, day, disabledDays),
+        [classes.noHover]: !day || isDisabled(year, month, day, disabledDays),
         [classes.selected]: isSelected(year, month, day, selectedDays),
         [classes.between]: isBetween(year, month, day, selectedDays, hoveredDay),
       })}

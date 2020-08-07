@@ -10,14 +10,6 @@ const areDaysEqual = curryN(2, (day1, day2) => {
   return isSameDay;
 });
 
-const isSelectedDay = (selectedDays, day) => {
-  const isSelected = selectedDays.some(selectedDay =>
-    areDaysEqual(day, selectedDay),
-  );
-
-  return isSelected;
-};
-
 const getYearAndMonth = (momentDate, offsetMonths = 0) => {
   const date = moment(momentDate).add(offsetMonths, 'months');
 
@@ -59,11 +51,4 @@ const generateDates = (momentDate, pages) =>
       header: getHeader(momentDate, i),
     }));
 
-export {
-  areDaysEqual,
-  isSelectedDay,
-  getYearAndMonth,
-  getWeeks,
-  getHeader,
-  generateDates,
-};
+export { areDaysEqual, getYearAndMonth, getWeeks, getHeader, generateDates };

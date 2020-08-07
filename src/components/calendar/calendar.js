@@ -5,22 +5,36 @@ import connectProps from './props';
 import useStyles from './style';
 
 const Calendar = ({
-  pages,
+  // Props
+  pages = 2,
   startDate = new Date(),
-  disabledDays,
+  disabledDays = {},
+
+  // Connected
   dates = [],
+
+  // Actions
   updateMonth,
   updatePages,
   updateStartDate,
+  updateDisabledDays,
 }) => {
   const classes = useStyles();
 
+  // Effects
   useEffect(() => {
     updatePages(pages);
-    updateStartDate(startDate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updatePages, updateStartDate]);
+  }, [pages, updatePages]);
 
+  useEffect(() => {
+    updateStartDate(startDate);
+  }, [startDate, updateStartDate]);
+
+  useEffect(() => {
+    updateDisabledDays(disabledDays);
+  }, [disabledDays, updateDisabledDays]);
+
+  // Callbacks
   const handlePreviousMonth = useCallback(() => {
     updateMonth(-1);
   }, [updateMonth]);
@@ -38,7 +52,6 @@ const Calendar = ({
             date={date}
             handlePreviousMonth={i === 0 ? handlePreviousMonth : undefined}
             handleNextMonth={i === arr.length - 1 ? handleNextMonth : undefined}
-            disabledDays={disabledDays}
           />
         </React.Fragment>
       ))}
