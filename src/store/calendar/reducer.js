@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions';
 import { updateMonth, selectDay, updateHoveredDay } from './actions';
 import { reject } from 'lodash/fp';
 import { getYearAndMonth, getWeeks, getHeader } from 'utils';
+import { compareDays, isSelectedDay } from './utils';
 import moment from 'moment';
 
 const today = moment().startOf('day');
@@ -25,23 +26,6 @@ const initialState = {
   hoveredDay: undefined,
 };
 
-const compareDays = day1 => day2 => {
-  const momentDay1 = moment(day1).startOf('day');
-  const momentDay2 = moment(day2).startOf('day');
-
-  const isSameDay = momentDay1.diff(momentDay2, 'days') === 0;
-
-  return isSameDay;
-};
-
-const isSelectedDay = (selectedDays, day) => {
-  const isSelected = selectedDays.some(selectedDay =>
-    compareDays(day)(selectedDay),
-  );
-
-  return isSelected;
-};
-
 const calendarReducer = handleActions(
   {
     [selectDay]: (state, { payload }) => {
@@ -52,7 +36,7 @@ const calendarReducer = handleActions(
         return {
           ...state,
           selectedDays: reject(compareDays(payload), state.selectedDays),
-          hoveredDay: undefined,
+          hoveredDay: payload,
         };
       } else if (state.selectedDays.length === 2) {
         return {

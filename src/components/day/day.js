@@ -19,12 +19,12 @@ const Day = ({
   const { before, after } = disabledDays;
 
   const handleDayClick = () => {
-    selectDay(moment([year, month, day]));
+    selectDay(moment([year, month, day]).startOf('day'));
   };
 
   const handleDayHover = () => {
     if (selectedDays.length === 1) {
-      updateHoveredDay(moment([year, month, day]));
+      updateHoveredDay(moment([year, month, day]).startOf('day'));
     }
   };
 
