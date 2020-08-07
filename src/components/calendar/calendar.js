@@ -1,6 +1,5 @@
-import React, { useEffect, useCallback, memo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Page } from 'components';
-import { compose } from 'redux';
 import connectProps from './props';
 import useStyles from './style';
 
@@ -59,4 +58,4 @@ const Calendar = ({
   );
 };
 
-export default compose(connectProps, memo)(Calendar);
+export default connectProps(Calendar);

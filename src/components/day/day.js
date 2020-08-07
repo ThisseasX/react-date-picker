@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import useStyles from './style';
 import moment from 'moment';
 import { isToday, isDisabled, isSelected, isBetween } from 'utils';
@@ -46,4 +46,4 @@ const Day = ({
   );
 };
 
-export default memo(Day);
+export default Day;

@@ -1,5 +1,4 @@
-import React, { memo } from 'react';
-import { compose } from 'redux';
+import React from 'react';
 import connectProps from './props';
 import { Day } from 'components';
 import { daysOfWeek } from './content';
@@ -87,4 +86,4 @@ const Page = ({
   );
 };
 
-export default compose(connectProps, memo)(Page);
+export default connectProps(Page);
