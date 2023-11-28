@@ -5,8 +5,8 @@ import { store } from 'store';
 import useStyles from './style';
 
 const disabledDays = {
-  before: new Date(2020, 6, 7),
-  after: new Date(2020, 8, 22),
+  before: new Date(2023, 6, 7),
+  after: new Date(2025, 1, 1),
 };
 
 const App = () => {
